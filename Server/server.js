@@ -13,6 +13,15 @@ const io = socketIO(server)
 io.on('connection', (socket) => {
     console.log("New User Connected")
 
+    socket.on('create_msg',(msg)=>{
+        console.log('msg',msg)
+        io.emit("newMsg",{
+            from : "Ahsun",
+            text : "haan bhai",
+            createAt : new Date().getTime()
+        })
+    })
+
     socket.on('disconnect',() => {
         console.log("DisConnected To Server")
       })
