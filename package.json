@@ -2,10 +2,17 @@
   "name": "node_socketio",
   "version": "1.0.0",
   "description": "Node Socket Programming.",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
+    "start" : "node Server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines":{
+    "node" : "12.14.1"
+  },
   "author": "Ashar.",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
