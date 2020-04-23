@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -23,6 +23,33 @@
         </div>
       </form>
     </div>
+
+  </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Join | ChatApp</title>
+    <meta name="viewport" content="width=device-width, inital-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body class="centered-form">
+    <p>Hello Socket IO</p>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      let socket = io()
+
+      socket.on('connect',() => {
+        console.log("Connected To Server")
+      })
+      socket.on('disconnect',() => {
+        console.log("DisConnected To Server")
+      })
+    </script>
 
   </body>
 </html>
