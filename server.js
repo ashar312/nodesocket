@@ -40,7 +40,11 @@ io.on('connection', function(socket){
     io.emit('visitors',socket.client.id)
     socket.on('new_visitor',user => {
         if(user){
-            OnlineUser(user.ID)
+            try{
+                OnlineUser(user.ID)
+            }catch(e){
+                console.log(e)
+            }
         }
         console.log("new_visitor",user);
         socket.user = user;
@@ -49,10 +53,6 @@ io.on('connection', function(socket){
     })
 
     socket.on("disconnect",function(){
-    //    emitVisitors()
-    //    console.log(socket.user)
-   //     console.log(socket.user.ID + " disconnected")
-        
         offlineUser(socket.user.ID)
     })
 
@@ -79,6 +79,7 @@ function OnlineUser(id){
         Last_Online : new Date().toISOString().slice(0, 19).replace('T', ' ')
     }).then(() => {
         console.log(id, "online")
+        io.emit("CallBack"+id,"You are now connect to the server," + id)
     })
     .catch(e => {
         console.log(e)
