@@ -1,13 +1,47 @@
 
 const app = require('express')();
 const http = require('http').Server(app)
+const bodyparser = require('body-parser');
 const io = require('socket.io')(http)
 const admin = require('firebase-admin')
-
+const paypal = require('./Routes/Paypal')
 const port = process.env.PORT || 3002
+
+app.use(bodyparser.urlencoded({extended : false}));
+app.use(bodyparser.json());
+
+
+app.use((req,res,next) => {
+    res.header('Access-Control-Allow-Origin','*');
+    res.header('Access-Control-Allow-Headers',
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if(req.method === 'OPTIONS'){
+        res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE, GET, OPTIONS')
+        return res.status(200).json({})
+    }
+    next()
+})
+//Routes >
+app.use('/paypal',paypal)
+app.use((req,res,next)=>{
+    const error = new Error("Not Found");
+    error.status = 404;
+    next(error);
+})
+app.use((error,req,res,next)=>{
+    res.status(error.status || 500);
+    res.json({
+        error : {
+            message : error.message
+        }
+    })
+})
+//Routes />
 
 var serviceAccount = require("./Dateumm_Key/dateumm-62ec2-firebase-adminsdk-uzrai-a4f4897cb8.json");
 // Initialize the app with a custom auth variable, limiting the server's access
+
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://dateumm-62ec2.firebaseio.com",
