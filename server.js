@@ -5,7 +5,10 @@ const bodyparser = require('body-parser');
 const io = require('socket.io')(http)
 const admin = require('firebase-admin')
 const paypal = require('./Routes/Paypal')
+
+//Routes Classes
 const searchEngine = require('./Routes/SearchEngine')
+const validation = require('./Routes/Validation')
 
 //port iniatiliziation
 const port = process.env.PORT || 3002
@@ -27,6 +30,7 @@ app.use((req,res,next) => {
 //Routes >
 app.use('/paypal',paypal)
 app.use('/search',searchEngine)
+app.use('/validation',validation)
 app.use((req,res,next)=>{
     const error = new Error("Not Found");
     error.status = 404;
