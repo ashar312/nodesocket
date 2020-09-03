@@ -5,6 +5,9 @@ const bodyparser = require('body-parser');
 const io = require('socket.io')(http)
 const admin = require('firebase-admin')
 const paypal = require('./Routes/Paypal')
+const searchEngine = require('./Routes/SearchEngine')
+
+//port iniatiliziation
 const port = process.env.PORT || 3002
 
 app.use(bodyparser.urlencoded({extended : false}));
@@ -23,6 +26,7 @@ app.use((req,res,next) => {
 })
 //Routes >
 app.use('/paypal',paypal)
+app.use('/search',searchEngine)
 app.use((req,res,next)=>{
     const error = new Error("Not Found");
     error.status = 404;
