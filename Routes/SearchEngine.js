@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const admin = require('firebase-admin')
 router.get('/',async (req,res,next) => {
-//    console.log("ss",req.query)
+ //   console.log("ss",req.query)
     try{
         var minAge = 18
         var maxAge = 96
@@ -26,7 +26,12 @@ router.get('/',async (req,res,next) => {
         delete subQuery['id']
        // console.log("assa",subQuery)
         results = results.docs.map(doc => doc.data())
-        results = filteration(subQuery,results)
+   //     console.log(req.query)
+        if(req.query){
+       //     console.log("chala")
+            results = filteration(subQuery,results)
+        }
+       // console.log(results)
         res.status(200).json({results})
     }catch(e){
         const results = {
@@ -39,7 +44,8 @@ router.get('/',async (req,res,next) => {
 
 function filteration(query,res){
     var tempArray = []
-    if(query.length > 0){
+ //   console.log(query.length)
+    if(Object.keys(query).length > 0){
         for(let i = 0; i < res.length; i ++){
             if(query.Sect){
                 if(query.Sect !== res[i].Sect){
@@ -98,6 +104,16 @@ function filteration(query,res){
             }
             if(query.Nationality){
                 if(query.Nationality !== res[i].Nationality){
+                    continue
+                }
+            }
+            if(query.Country){
+                if(query.Nationality !== res[i].Country){
+                    continue
+                }
+            }
+            if(query.Region){
+                if(query.Region !== res[i].Region){
                     continue
                 }
             }
