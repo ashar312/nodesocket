@@ -1,0 +1,219 @@
+Duplicate Entry
+"message": {
+        "code": "ER_DUP_ENTRY",
+        "errno": 1062,
+        "sqlMessage": "Duplicate entry 'ashar@gmail.com' for key 'Email'",
+        "sqlState": "23000",
+        "index": 0,
+        "sql": "insert into seklopk_react.users (username,password,Fname,Lname,Email,Number,DateTime) VALUES ('ashar312','123456','Ashar','Ashfaq','ashar@gmail.com','03442484597','2020-04-22 10:11:42')"
+    }
+
+successful Insert
+{
+    "results": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 2,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+
+//if null is not allowed
+{
+  code: 'ER_BAD_NULL_ERROR',
+  errno: 1048,
+  sqlMessage: "Column 'pdfFile' cannot be null",
+  sqlState: '23000',
+  index: 0,
+  sql: "insert into seklopk_react.TempPdf (pdfFile) VALUES (LOAD_FILE('undefined'))"
+}
+
+// Error Codes : https://www.digitalocean.com/community/tutorials/how-to-troubleshoot-common-http-error-codes
+// 200 Bad Request. ...
+// 401 Unauthorized. ...
+// 403 Forbidden. ...
+// 404 Not Found. ...
+// 500 Internal Server Error. ...
+// 502 Bad Gateway. ...
+// 503 Service Unavailable. ...
+// 504 Gateway Timeout.
+
+First PDF will convert into Base64 String 
+<input id="inputFile" type="file" onchange="convertToBase64();" />
+
+<script type="text/javascript">
+    function convertToBase64() {
+        //Read File
+        var selectedFile = document.getElementById("inputFile").files;
+        //Check File is not Empty
+        if (selectedFile.length > 0) {
+            // Select the very first file from list
+            var fileToLoad = selectedFile[0];
+            // FileReader function for read the file.
+            var fileReader = new FileReader();
+            var base64;
+            // Onload of file read the file content
+            fileReader.onload = function(fileLoadedEvent) {
+                base64 = fileLoadedEvent.target.result;
+                // Print data in console
+                console.log(base64);
+            };
+            // Convert data to base64
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+</script>
+
+Then Base 64 will convert to BLOB (binary Large Object)
+var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+
+fetch(url)
+.then(res => res.blob())
+.then(console.log)
+
+Convert Blob to PDF 
+var blob = new Blob([filename], { type: 'application/pdf' });
+
+
+My Logic for Sending Responses : 
+
+For Error : 
+    results : {
+        code : -1,
+        message : "message"
+    }
+// To save a fetch file in project folder
+// fs.writeFileSync(results[0].Resume_Name, results[0].Resume)
+fs.readFile("/Volumes/User Drive/Node Projects/SekloRest/"+results[0].Resume_Name, (err, pdfBuffer) => {
+            // pdfBuffer contains the file content
+            
+            new PdfReader().parseBuffer(pdfBuffer, function(err, item){
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(item.text)
+                }
+            });
+        });
+
+//Forgor Password Logic :
+1.The user enters his username and hits "forgot password". I also recommend the option of entering the 
+email address instead of the username, because usernames are sometimes forgotten too.
+2.The system has a table password_change_requests with the columns ID, Time and UserID. When the new 
+user presses the button, a record is created in the table. The Time column contains the time when the 
+user pressed the "Forgot Password" button. The ID is a string. A long random string is created 
+(say, a GUID) and then hashed like a password (which is a separate topic in and of itself). 
+This hash is then used as the 'ID' in the table.
+3.The system sends an email to the user which contains a link in it. The link also contains the original 
+ID string (before the hashing). The link will be something like this: 
+http://www.mysite.com/forgotpassword.jsp?ID=01234567890ABCDEF. The forgotpassword.jsp page should be 
+able to retrieve the ID parameter. Sorry, I don't know Java, so I can't be more specific.
+4.When the user clicks the link in the email, he is moved to your page. The page retrieves the ID 
+from the URL, hashes it again, and checks against the table. If such a record is there and is no more 
+than, say, 24 hours old, the user is presented with the prompt to enter a new password.
+5.The user enters a new password, hits OK and everyone lives happily ever after.
+
+HTTP error Codes : https://www.restapitutorial.com/httpstatuscodes.html
+
+Node Project Hosting : https://www.a2hosting.com/kb/cpanel/cpanel-software/create-application-with-nodejs-selector
+Schedule Jobs : https://www.npmjs.com/package/node-schedule
+firebase client side : https://www.npmjs.com/package/firebase
+password hash : https://www.youtube.com/watch?v=uhMaeHDbOg0
+Google Cloud SQL connectivity : https://medium.com/@austinhale/building-a-node-api-with-express-and-google-cloud-sql-9bda260b040f
+Node Socket io Tutorial : https://www.youtube.com/watch?v=NEPv6501R5Q&list=PLYPFxrXyK0ByCS-KG6BZYEoXOkRugZuLD&index=2
+Socket io documentation : https://socket.io/docs/
+Promises, CallBacks, Async Await : https://www.youtube.com/watch?v=PoRJizFvM7s
+Load Balancing : https://www.youtube.com/watch?v=1OU5ngq-WyM&list=PLQlWzK5tU-gDyxC1JTpyC2avvJlt3hrIh
+MVC pattern : https://www.youtube.com/watch?v=z1Z1FZNW4rs
+JWT (Json Web Token) : https://www.youtube.com/watch?v=xBYr9DxDqyU
+Node JS Deploy on Google Cloud : https://www.youtube.com/watch?v=fAUT1-MuxKc
+
+To Update the heroku server : 
+git add .
+git commit -am "make it better"
+git push heroku master
+
+
+SQL Create, DROP, CHANGE, ALTER Queries : 
+CREATE TABLE Admin
+(
+adminId int auto_increment,
+firstName varchar(255),
+lastName varchar(255),
+email varchar(255),
+userName varchar(255),
+phNum varchar(255) NULL,
+regDate datetime default current_timestamp,
+PRIMARY KEY (adminId),
+unique(email),
+unique(userName),
+unique(phNum),
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+
+CREATE TABLE Advertise
+(
+adId int auto_increment,
+userId int,
+zipCode varchar(255),
+carModel varchar(255),
+carMake varchar(255),
+yearCar varchar(255),
+mileage varchar(255),
+exteriorColor varchar(255) NULL,
+interiorColor varchar(255) NULL,
+desciption text,
+price varchar(255),
+typeCar boolean,
+keywords text,
+regDate datetime default current_timestamp,
+PRIMARY KEY (adId),
+FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+// Insertion in two different Tables and Multiple entries in a single Table : 
+BEGIN;
+INSERT INTO TempTable1 (name)
+  VALUES('newTest');
+INSERT INTO TempTableImages (tempId, imageName) 
+  VALUES(LAST_INSERT_ID(),'car1'),
+   (LAST_INSERT_ID(),'car2!'),
+    (LAST_INSERT_ID(),'car3!'), 
+    (LAST_INSERT_ID(),'car4!'),
+    (LAST_INSERT_ID(),'car5!');
+COMMIT;
+
+//Add Column
+ALTER TABLE table_name
+ADD column_name datatype;
+
+//Drop column
+ALTER TABLE "table_name" DROP "column_name";
+
+//Change column name
+ALTER TABLE tableName CHANGE `oldcolname` `newcolname` datatype(length);
+
+
+sightHound api token : G6EmGMBbQ3lPOAhtZKmcXmHH0i9sDUsYneR1
+
+https://ashar312.stoplight.io/
+
+
+Wagon
+Sport Utility Vehicle (SUV)
+Coupe
+Sedan
+Pickup Truck
+Hatchback
+Convertible
+Minivan
+
+//ToDo
+bodyTypes ka Database;
+Product may addition to columns.
+Product may searching with Filters.
+Product Images ka DB.
