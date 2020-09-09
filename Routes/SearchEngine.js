@@ -26,12 +26,12 @@ router.get('/',async (req,res,next) => {
         delete subQuery['id']
        // console.log("assa",subQuery)
         results = results.docs.map(doc => doc.data())
-   //     console.log(req.query)
+     //   console.log(req.query,results.length)
         if(req.query){
        //     console.log("chala")
             results = filteration(subQuery,results)
         }
-       // console.log(results)
+     //   console.log(req.query,results.length)
         res.status(200).json({results})
     }catch(e){
         const results = {
@@ -44,7 +44,7 @@ router.get('/',async (req,res,next) => {
 
 function filteration(query,res){
     var tempArray = []
- //   console.log(query.length)
+  //  console.log(Object.keys(query).length)
     if(Object.keys(query).length > 0){
         for(let i = 0; i < res.length; i ++){
             if(query.Sect){
@@ -108,7 +108,7 @@ function filteration(query,res){
                 }
             }
             if(query.Country){
-                if(query.Nationality !== res[i].Country){
+                if(query.Country !== res[i].Country){
                     continue
                 }
             }

@@ -5,6 +5,7 @@ const bodyparser = require('body-parser');
 const io = require('socket.io')(http)
 const admin = require('firebase-admin')
 const paypal = require('./Routes/Paypal')
+const userProfile = require('./Routes/UserProfile')
 
 //Routes Classes
 const searchEngine = require('./Routes/SearchEngine')
@@ -28,6 +29,7 @@ app.use((req,res,next) => {
     next()
 })
 //Routes >
+app.use('/users',userProfile)
 app.use('/paypal',paypal)
 app.use('/search',searchEngine)
 app.use('/validation',validation)
