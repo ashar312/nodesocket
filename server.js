@@ -10,6 +10,7 @@ const userProfile = require('./Routes/UserProfile')
 //Routes Classes
 const searchEngine = require('./Routes/SearchEngine')
 const validation = require('./Routes/Validation')
+const likes = require('./Routes/Likes')
 
 //port iniatiliziation
 const port = process.env.PORT || 3002
@@ -33,6 +34,7 @@ app.use('/users',userProfile)
 app.use('/paypal',paypal)
 app.use('/search',searchEngine)
 app.use('/validation',validation)
+app.use('/likes',likes)
 app.use((req,res,next)=>{
     const error = new Error("Not Found");
     error.status = 404;
