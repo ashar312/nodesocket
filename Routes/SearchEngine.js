@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const admin = require('firebase-admin')
 router.get('/',async (req,res,next) => {
- //   console.log("ss",req.query)
+   // console.log("ss",req.query)
     try{
         var minAge = 18
         var maxAge = 96
@@ -114,6 +114,12 @@ function filteration(query,res){
             }
             if(query.Region){
                 if(query.Region !== res[i].Region){
+                    continue
+                }
+            }
+            if(query.minHeight){
+                if(Number(query.minHeight) < Number(res[i].HeightFt)
+                && Number(query.maxHeight) > Number(res[i].HeightFt)){
                     continue
                 }
             }
