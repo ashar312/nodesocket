@@ -82,7 +82,7 @@ router.get('/chat-initiate',async (req,res,next) => {
                 message : "Message Node Exist already"
             }
         }else{
-            let response = await admin.firestore().collection("Chats").doc(buildDoc)
+            await admin.firestore().collection("Chats").doc(buildDoc)
             .set({
                 UsersID : [userId,otherId],
                 Users : [userEmail,otherEmail],
@@ -95,6 +95,66 @@ router.get('/chat-initiate',async (req,res,next) => {
             }
         }
         res.status(200).json({results})
+    } catch (e) {
+        console.log(e)
+        const results = {
+            code : -1,
+            message : e.message
+        }
+        res.status(200).json({results})
+    }
+})
+
+router.get('/send-like',async (req,res,next) => {
+    const myId = req.query.myId
+    const otherId = req.query.otherId
+    const status = req.query.status === "1" ? true : false
+    // 1 = "You Have liked User"
+    // 2 = "User have liked you"
+    // 3 = "Both Have Liked eachother"
+    // 4 = "User doesnt like eachother"
+    try {
+        const buildLikeID = [myId, otherId].sort().join('-');
+        let results = await admin.firestore().collection("LikesList").doc(buildLikeID).get()
+        if(results.exists){
+            results = results.data();
+            
+            if(myId === results.FirstPerson){
+                const obj = {
+                    FirstLike : status
+                }
+                await admin.firestore().collection("LikesList").doc(buildLikeID).update(obj)
+                results = {
+                    code : 1,
+                    message : "Successful"
+                }
+            }else if(myId === results.SecondPerson){
+                const obj = {
+                    SecondLike : status
+                }
+                await admin.firestore().collection("LikesList").doc(buildLikeID).update(obj)
+                results = {
+                    code : 1,
+                    message : "Successful"
+                }
+            }
+        }else{
+            const obj = {
+                FirstLike : true,
+                FirstPerson : myId,
+                SecondLike : false,
+                SecondPerson : otherId,
+                Users : [myId,otherId]
+            }
+            await admin.firestore().collection("LikesList").doc(buildLikeID).set(obj)
+            results = {
+                code : 1,
+                message : "Successful"
+            }
+        }
+        // console.log(results)
+        res.status(200).json({results})
+
     } catch (e) {
         console.log(e)
         const results = {
