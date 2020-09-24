@@ -72,17 +72,17 @@ const getVisitors = () => {
     let clients = io.sockets.clients().connected
     let sockets = Object.values(clients);
     let users = sockets.map(s => s.user);
-    console.log("u",users)
+ //   console.log("u",users)
     return users;
 }
 
 const emitVisitors = (socket) => {
-    console.log("socket",socket)
+  //  console.log("socket",socket)
     io.emit('visitors',socket.client.id)
 }
 
 io.on('connection', function(socket){
-    console.log('a user connected'); 
+ //   console.log('a user connected'); 
     io.emit('visitors',socket.client.id)
     socket.on('new_visitor',user => {
         if(user){
@@ -92,7 +92,7 @@ io.on('connection', function(socket){
                 console.log(e)
             }
         }
-        console.log("new_visitor",user);
+    //    console.log("new_visitor",user);
         socket.user = user;
         
      //   emitVisitors(socket)
@@ -124,7 +124,7 @@ function OnlineUser(id){
         Online : true,
         Last_Online : new Date().toISOString().slice(0, 19).replace('T', ' ')
     }).then(() => {
-        console.log(id, "online")
+    //    console.log(id, "online")
         io.emit("CallBack"+id,"You are now connect to the server," + id)
     })
     .catch(e => {
@@ -135,9 +135,10 @@ function offlineUser(id){
     admin.firestore().collection("Users")
     .doc(id)
     .update({
-        Online : false
+        Online : false,
+        Last_Online : new Date().toISOString().slice(0, 19).replace('T', ' ')
     }).then(() => {
-        console.log(id, "offline")
+   //     console.log(id, "offline")
     })
     .catch(e => {
         console.log(e)

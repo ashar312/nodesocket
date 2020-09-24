@@ -165,5 +165,46 @@ router.get('/send-like',async (req,res,next) => {
     }
 })
 
+router.get('/user-likes',async (req,res,next) => {
+    const id = req.query.id
+    var myLikes = []
+    var likedBy = []
+    var mutualLikes = []
+    try {
+        let results = await admin.firestore().collection("LikesList").where("Users","array-contains",id).get()
+        if(results.exists){
+            results = results.docs.map(doc => doc.data())
+            for(let i = 0; i < results.length; i ++){
+                if(results[i].FirstPerson === id){
+                    if(results[i].FirstLike === true && results.SecondLike === false){
+                        //melikes
+                    }else if(results[i].FirstLike === false && results.SecondLike === true){
+                        //other likes
+                    }else if(results[i].FirstLike === true && results[i].SecondLike === true){
+                        //mutual likes
+                    }
+                }else if(results[i].SecondPerson === id){
+                    if(results[i].FirstLike === false && results.SecondLike === true){
+                        //melikes
+                    }else if(results[i].FirstLike === true && results[i].SecondLike === false){
+                        //other likes
+                    }else if(results[i].FirstLike === true && results[i].SecondLike === true){
+                        //mutual likes
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        const results = {
+            code : -1,
+            message : e.message
+        }
+        res.status(200).json({results})
+    }
+})
+
+
+
 
 module.exports = router;
