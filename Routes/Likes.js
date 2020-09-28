@@ -12,6 +12,7 @@ router.get('',async (req,res,next) => {
     try {
         const buildLikeID = [myId, otherId].sort().join('-');
         let results = await admin.firestore().collection("LikesList").doc(buildLikeID).get()
+        
         if(results.exists){
             results = results.data();
             if(myId === results.FirstPerson){
@@ -172,26 +173,26 @@ router.get('/user-likes',async (req,res,next) => {
     var mutualLikes = []
     try {
         let results = await admin.firestore().collection("LikesList").where("Users","array-contains",id).get()
-        if(results.exists){
-            results = results.docs.map(doc => doc.data())
+        results = results.docs.map(doc => doc.data())
+        if(results.length > 0){
             for(let i = 0; i < results.length; i ++){
                 if(results[i].FirstPerson === id){
                     if(results[i].FirstLike === true && results.SecondLike === false){
                         myLikes.push({
                             like : results[i],
-                            otherPerson : results.SecondPerson
+                            otherPerson : results[i].SecondPerson
                         })
                         //melikes
                     }else if(results[i].FirstLike === false && results.SecondLike === true){
                         likedBy.push({
                             like : results[i],
-                            otherPerson : results.SecondPerson
+                            otherPerson : results[i].SecondPerson
                         })
                         //other likes
                     }else if(results[i].FirstLike === true && results[i].SecondLike === true){
                         mutualLikes.push({
                             like : results[i],
-                            otherPerson : results.SecondPerson
+                            otherPerson : results[i].SecondPerson
                         })
                         //mutual likes
                     }
@@ -199,19 +200,19 @@ router.get('/user-likes',async (req,res,next) => {
                     if(results[i].FirstLike === false && results.SecondLike === true){
                         myLikes.push({
                             like : results[i],
-                            otherPerson : results.SecondPerson
+                            otherPerson : results[i].FirstPerson
                         })
                         //melikes
                     }else if(results[i].FirstLike === true && results[i].SecondLike === false){
                         //other likes
                         likedBy.push({
                             like : results[i],
-                            otherPerson : results.SecondPerson
+                            otherPerson : results[i].FirstPerson
                         })
                     }else if(results[i].FirstLike === true && results[i].SecondLike === true){
                         mutualLikes.push({
                             like : results[i],
-                            otherPerson : results.FirstPerson
+                            otherPerson : results[i].FirstPerson
                         })
                         //mutual likes
                     }
@@ -223,6 +224,7 @@ router.get('/user-likes',async (req,res,next) => {
             likedBy,
             mutualLikes
         }
+      //  console.log(results)
         res.status(200).json({results})
 
     } catch (e) {
