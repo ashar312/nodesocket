@@ -177,23 +177,54 @@ router.get('/user-likes',async (req,res,next) => {
             for(let i = 0; i < results.length; i ++){
                 if(results[i].FirstPerson === id){
                     if(results[i].FirstLike === true && results.SecondLike === false){
+                        myLikes.push({
+                            like : results[i],
+                            otherPerson : results.SecondPerson
+                        })
                         //melikes
                     }else if(results[i].FirstLike === false && results.SecondLike === true){
+                        likedBy.push({
+                            like : results[i],
+                            otherPerson : results.SecondPerson
+                        })
                         //other likes
                     }else if(results[i].FirstLike === true && results[i].SecondLike === true){
+                        mutualLikes.push({
+                            like : results[i],
+                            otherPerson : results.SecondPerson
+                        })
                         //mutual likes
                     }
                 }else if(results[i].SecondPerson === id){
                     if(results[i].FirstLike === false && results.SecondLike === true){
+                        myLikes.push({
+                            like : results[i],
+                            otherPerson : results.SecondPerson
+                        })
                         //melikes
                     }else if(results[i].FirstLike === true && results[i].SecondLike === false){
                         //other likes
+                        likedBy.push({
+                            like : results[i],
+                            otherPerson : results.SecondPerson
+                        })
                     }else if(results[i].FirstLike === true && results[i].SecondLike === true){
+                        mutualLikes.push({
+                            like : results[i],
+                            otherPerson : results.FirstPerson
+                        })
                         //mutual likes
                     }
                 }
             }
         }
+        results = {
+            myLikes,
+            likedBy,
+            mutualLikes
+        }
+        res.status(200).json({results})
+
     } catch (e) {
         console.log(e)
         const results = {
