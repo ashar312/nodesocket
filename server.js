@@ -1,12 +1,13 @@
 
 const app = require('express')();
 const http = require('http').Server(app)
+const engines = require("consolidate");
 const bodyparser = require('body-parser');
 const io = require('socket.io')(http)
 const admin = require('firebase-admin')
 const paypal = require('./Routes/Paypal')
 const userProfile = require('./Routes/UserProfile')
-
+require('./PaypalSetup/paypal')
 //Routes Classes
 const searchEngine = require('./Routes/SearchEngine')
 const validation = require('./Routes/Validation')
@@ -17,6 +18,10 @@ const port = process.env.PORT || 3002
 
 app.use(bodyparser.urlencoded({extended : false}));
 app.use(bodyparser.json());
+
+app.engine("ejs", engines.ejs);
+app.set("views", "./views");
+app.set("view engine", "ejs");
 
 
 app.use((req,res,next) => {
