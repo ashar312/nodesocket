@@ -6,7 +6,22 @@ router.get('/',async (req,res,next) => {
     res.render('index')
 })
 
+function package(id){
+    switch(id){
+        case 1:
+            return "4.99";
+        case 2:
+            return "29.99";
+        case 3:
+            return "59.99";
+        case 4:
+            return "119.99";
+    }
+}
+// URL://pay?package=2
+// Package == 1, 2, 3, 4
 router.get('/pay',async (req,res,next) => {
+    var cost = req.query.package
     var create_payment_json = {
         intent: "sale",
         payer: {
@@ -23,7 +38,7 @@ router.get('/pay',async (req,res,next) => {
                         {
                             name: "item",
                             sku: "item",
-                            price: "1.00",
+                            price: cost,
                             currency: "USD",
                             quantity: 1
                         }
@@ -31,7 +46,7 @@ router.get('/pay',async (req,res,next) => {
                 },
                 amount: {
                     currency: "USD",
-                    total: "1.00"
+                    total: cost
                 },
                 description: "This is the payment description."
             }
