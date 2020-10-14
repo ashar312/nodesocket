@@ -4,10 +4,23 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>success</title>
+        <title>Success</title>
     </head>
+    <script>
+
+        function getQuery( name ){ name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]"); var regexS = "[\\?&]"+name+"=([^&#]*)"; var regex = new RegExp( regexS ); var results = regex.exec( window.location.href ); if( results == null ) return ""; else return results[1];}
+        
+        </script>
     <body>
       <h1>Transcation Successful</h1>
+      
+        <!-- <script>document.write(getQuery('paymentId'));</script>
+        <br/>
+        <script>document.write(getQuery('token'));</script>
+        <br/>
+        <script>document.write(getQuery('PayerID'));</script> -->
+
+
         </form>
     </body>
 </html>

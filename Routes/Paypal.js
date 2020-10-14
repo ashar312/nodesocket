@@ -8,20 +8,22 @@ router.get('/',async (req,res,next) => {
 
 function package(id){
     switch(id){
-        case 1:
+        case "1":
             return "4.99";
-        case 2:
+        case "2":
             return "29.99";
-        case 3:
+        case "3":
             return "59.99";
-        case 4:
+        case "4":
             return "119.99";
     }
 }
 // URL://pay?package=2
 // Package == 1, 2, 3, 4
 router.get('/pay',async (req,res,next) => {
-    var cost = req.query.package
+    console.log(req.query.userId,req.query.package)
+    console.log("pack",package(req.query.package))
+    var cost = package(req.query.package)
     var create_payment_json = {
         intent: "sale",
         payer: {
@@ -55,7 +57,7 @@ router.get('/pay',async (req,res,next) => {
 
     paypal.payment.create(create_payment_json, function(error, payment) {
         if (error) {
-            throw error;
+            console.log(error);
         } else {
             console.log("Create Payment Response");
             console.log(payment);
