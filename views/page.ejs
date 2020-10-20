@@ -1,0 +1,43 @@
+<DOCTYPE! html>
+<html lang="en-us">
+<title> Payment </title>
+<head>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="./success.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+<script>
+
+    function getQuery( name ){ name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]"); var regexS = "[\\?&]"+name+"=([^&#]*)"; var regex = new RegExp( regexS ); var results = regex.exec( window.location.href ); if( results == null ) return ""; else return results[1];}
+    
+    </script>
+<body style= "background-color:#e7e1e1fa";>
+  
+    <div class="container">
+        <br>
+        <div class="square"> </div> <div class="shape"> </div>
+    <h1 onclick="myFunction()"> Your Payment Transaction has been  Completed </h1>
+    PaymentId : <script>document.write(getQuery('paymentId'));</script>
+        <br/>
+        Token : <script>document.write(getQuery('token'));</script>
+        <br/>
+        PayerID : <script>document.write(getQuery('PayerID'));</script>
+        <br/>
+        UserID : <script>document.write(getQuery('userId'));</script>
+        <br/>
+        Cost : <script>document.write(getQuery('cost'));</script>
+        <br/>
+        Days : <script>document.write(getQuery('days'));</script>
+    <button type="button" class="btn btn-danger btn-sm">
+        <h5> Back to Profile </h5>
+        </button>
+        <div  class="diomind"> </div> <div class="shape2"> </div>
+        </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+</body>    

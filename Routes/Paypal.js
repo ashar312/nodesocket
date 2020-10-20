@@ -9,13 +9,25 @@ router.get('/',async (req,res,next) => {
 function package(id){
     switch(id){
         case "1":
-            return "4.99";
+            return {
+                cost : "4.99",
+                expiryDays : '7'
+            };
         case "2":
-            return "29.99";
+            return {
+                cost : "29.99",
+                expiryDays : '30'
+            }
         case "3":
-            return "59.99";
+            return {
+                cost : "59.99",
+                expiryDays : '93'
+            }
         case "4":
-            return "119.99";
+            return {
+                cost : "119.99",
+                expiryDays : '365'
+            }
     }
 }
 // URL://pay?package=2
@@ -30,8 +42,8 @@ router.get('/pay',async (req,res,next) => {
             payment_method: "paypal"
         },
         redirect_urls: {
-            return_url: "http://localhost:3002/success",
-            cancel_url: "http://localhost:3002/cancel"
+            return_url: `https://dateumm.herokuapp.com/success?cost=${cost.cost}&day=${cost.expiryDays}&userId=${req.query.userId}`,
+            cancel_url: "https://dateumm.herokuapp.com/cancel"
         },
         transactions: [
             {
@@ -40,7 +52,7 @@ router.get('/pay',async (req,res,next) => {
                         {
                             name: "item",
                             sku: "item",
-                            price: cost,
+                            price: cost.cost,
                             currency: "USD",
                             quantity: 1
                         }
@@ -48,7 +60,7 @@ router.get('/pay',async (req,res,next) => {
                 },
                 amount: {
                     currency: "USD",
-                    total: cost
+                    total: cost.cost
                 },
                 description: "This is the payment description."
             }

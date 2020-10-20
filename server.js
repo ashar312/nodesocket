@@ -41,7 +41,7 @@ app.use('/search',searchEngine)
 app.use('/validation',validation)
 app.use('/likes',likes)
 app.get('/success',function(req,res){
-    res.render('success')
+    res.render('page')
 })
 app.use((req,res,next)=>{
     const error = new Error("Not Found");

@@ -1,0 +1,36 @@
+#para1 {
+      background-color:rgb(78, 10, 10)
+} 
+.square {
+    height: 100px;
+    width: 100px;
+    background-color: #d15858;
+    transform: rotate(45deg);
+    
+}
+.shape {
+    height: 50px;
+    width: 50px;
+    background-color: #410808;
+    transform: rotate(45deg);
+}
+h1 {
+    font-family: "poppins" !important;
+    color: #662626;
+    font-weight: 800 !important;
+    margin-top:30px;
+    }
+.diomind {
+    height: 100px;
+    width: 100px;
+    background-color: #d15858;
+    transform: rotate(45deg);
+    margin: auto;
+}
+.shape2{
+    height: 50px;
+    width: 50px;
+    background-color: #411414;
+    transform: rotate(45deg);
+    margin: auto;
+}
