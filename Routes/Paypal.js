@@ -36,6 +36,7 @@ router.get('/pay',async (req,res,next) => {
     console.log(req.query.userId,req.query.package)
     console.log("pack",package(req.query.package))
     var cost = package(req.query.package)
+    console.log("costNew",cost)
     var create_payment_json = {
         intent: "sale",
         payer: {
