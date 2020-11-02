@@ -12,6 +12,7 @@ require('./PaypalSetup/paypal')
 const searchEngine = require('./Routes/SearchEngine')
 const validation = require('./Routes/Validation')
 const likes = require('./Routes/Likes')
+const payments = require('./Routes/Payment')
 
 //port iniatiliziation
 const port = process.env.PORT || 3002
@@ -40,12 +41,14 @@ app.use('/paypal',paypal)
 app.use('/search',searchEngine)
 app.use('/validation',validation)
 app.use('/likes',likes)
+app.use('/payments',payments)
 app.get('/success',function(req,res){
     console.log(req.query)
     var obj = req.query;
     obj['createdAt'] = admin.firestore.Timestamp.now()
     admin.firestore().collection("Payments")
-    .doc().set(obj)
+    .doc()
+    .set(obj)
     .then(() => {
         admin.firestore().collection("Users").doc(obj.userId)
         .update({
