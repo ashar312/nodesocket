@@ -41,6 +41,17 @@ app.use('/search',searchEngine)
 app.use('/validation',validation)
 app.use('/likes',likes)
 app.get('/success',function(req,res){
+    console.log(req.query)
+    var obj = req.query;
+    obj['createdAt'] = admin.firestore.Timestamp.now()
+    admin.firestore().collection("Payments")
+    .doc().set(obj)
+    .then(() => {
+        admin.firestore().collection("Users").doc(obj.userId)
+        .update({
+            payment : true
+        })
+    })
     res.render('page')
 })
 app.use((req,res,next)=>{
