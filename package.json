@@ -20,6 +20,6 @@
     "nodemon": "^2.0.3",
     "opn": "^6.0.0",
     "paypal-rest-sdk": "^1.8.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   }
 }
